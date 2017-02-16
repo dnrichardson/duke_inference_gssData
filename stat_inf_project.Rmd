@@ -37,6 +37,20 @@ load("gss.Rdata")
 
 ## Part 1: Data
 
+How were the observations in the sample collected? Answers should discuss if random sampling was used. 
+
+"Each survey from 1972 to 2004 was an independently drawn sample of English-speaking persons 18 years of age or over, living in non-institutional arrangements within the United States. 
+
+Starting in 2006 Spanish-speakers were added to the target population. 
+
+Block quota sampling was used in 1972, 1973, and 1974 surveys and for half of the 1975 and 1976 surveys. 
+
+Full probability sampling was employed in half of the 1975 and 1976 surveys and the 1977, 1978, 1980, 1982-1991, 1993-1998, 2000, 2002, 2004, 2006, 2008, 2010, 2012, and 2014 surveys. 
+
+Also, the 2004, 2006, 2008, 2010, 2012, and 2014 surveys had sub-sampled non-respondents (see Appendix A for a detailed description of the sample design)."
+
+
+What are the implications of this collection method on the scope of inference (generalizability/causality)? For causality, answer should discuss whether random assignment was used.
 
 * * *
 
