@@ -35,9 +35,9 @@ load("gss.Rdata")
 
 ## Part 1: Data
 
-Observations in the GSS sample were collected using a form of random sampling (either `block quota sampling` in the years 1972-1974 and for half of the 1975-1976 surveys or `full probability` sampling for half of the 1975-1976 surveys and up to 2014.) Full details of the sampling procedure are provided in Appendix A of the [documentation section of the GSS website](http://gss.norc.org/Get-Documentation). 
+Observations in the GSS sample were collected using a form of random sampling (either `block quota sampling` in the years 1972-1974 and for half of the 1975-1976 surveys or `full probability` sampling for half of the 1975-1976 surveys and up to 2014.) Complete details of the sampling procedures are provided in Appendix A of the [documentation section of the GSS website](http://gss.norc.org/Get-Documentation).  
 
-Or, more simply: "Each survey from 1972 to 2004 was an independently drawn sample of English-speaking persons 18 years of age or over, living in non-institutional arrangements within the United States. Starting in 2006 Spanish-speakers were added to the target population."
+To put things more simply: "Each survey from 1972 to 2004 was an independently drawn sample of English-speaking persons 18 years of age or over, living in non-institutional arrangements within the United States. Starting in 2006 Spanish-speakers were added to the target population."
 
 Therefore, the target population of the survey is English and Spanish speakers 18 years or older, residing in the United States in non-institutional arrangments, e.g. military installations, religious institutions, prison, etc. Since the observations were obtained using a random sampling approach, we can generalize our findings based on this sample to the entire United States adult population who speak English or Spanish.
 
