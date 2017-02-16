@@ -23,9 +23,7 @@ library(statsr)
 
 ### Load data
 
-Make sure your data and R Markdown files are in the same directory. When loaded
-your data file will be called `gss`. Delete this note when before you submit 
-your work. 
+The `gss.Rdata` file is provided in my git-hub repository. 
 
 ```{r load-data}
 load("gss.Rdata")
@@ -37,20 +35,14 @@ load("gss.Rdata")
 
 ## Part 1: Data
 
-How were the observations in the sample collected? Answers should discuss if random sampling was used. 
+Observations in the GSS sample were collected using a form of random sampling (either `block quota sampling` in the years 1972-1974 and for half of the 1975-1976 surveys or `full probability` sampling for half of the 1975-1976 surveys and up to 2014.) Full details of the sampling procedure are provided in Appendix A of the [documentation section of the GSS website](http://gss.norc.org/Get-Documentation). 
 
-"Each survey from 1972 to 2004 was an independently drawn sample of English-speaking persons 18 years of age or over, living in non-institutional arrangements within the United States. 
+Or, more simply: "Each survey from 1972 to 2004 was an independently drawn sample of English-speaking persons 18 years of age or over, living in non-institutional arrangements within the United States. Starting in 2006 Spanish-speakers were added to the target population."
 
-Starting in 2006 Spanish-speakers were added to the target population. 
+Therefore, the target population of the survey is English and Spanish speakers 18 years or older, residing in the United States in non-institutional arrangments, e.g. military installations, religious institutions, prison, etc. Since the observations were obtained using a random sampling approach, we can generalize our findings based on this sample to the entire United States adult population who speak English or Spanish.
 
-Block quota sampling was used in 1972, 1973, and 1974 surveys and for half of the 1975 and 1976 surveys. 
+Data were collected by in-person interviews either with paper questionnaires or starting in 2002, the GSS was conducted by using computer-assisted personal interviewing. Respondents to the GSS were randomly selected, but there was no random assignment of respondents to particular groups, meaning: this is an observational study, **NOT** an experiment, thus it is not possible to infer causality. 
 
-Full probability sampling was employed in half of the 1975 and 1976 surveys and the 1977, 1978, 1980, 1982-1991, 1993-1998, 2000, 2002, 2004, 2006, 2008, 2010, 2012, and 2014 surveys. 
-
-Also, the 2004, 2006, 2008, 2010, 2012, and 2014 surveys had sub-sampled non-respondents (see Appendix A for a detailed description of the sample design)."
-
-
-What are the implications of this collection method on the scope of inference (generalizability/causality)? For causality, answer should discuss whether random assignment was used.
 
 * * *
 
