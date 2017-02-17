@@ -48,15 +48,29 @@ Data were collected by in-person interviews either with paper questionnaires or 
 
 ## Part 2: Research question
 
+For this short project, my research question is a simple one and considers the cumuluative responses across all years of the survey:
+
+**Does gun ownership vary according to political ideology or is gun ownership independent of political ideology?**
+
+This question is interesting to me because I am simply curious to see how gun ownership might vary according to political view. I assume that liberals would own less guns than conservatives, but I am fully aware that there are probably many other factors at play in determining whether someone owns a gun or not. Does the person live in a rural area or the city? Is an extremely conservative less likely to own a gun in the city, whereas an extremely liberal person more likely to own a gun if living in a rural area? I think I am interested in my proposed research question because it is a good springboard for further exploration into other demographic factors and variables that influence whether or not someone owns a gun.
 
 
 * * *
 
 ## Part 3: Exploratory data analysis
 
-NOTE: Insert code chunks as needed by clicking on the "Insert a new code chunk" 
-button (green button with orange arrow) above. Make sure that your code is visible
-in the project you submit. Delete this note when before you submit your work.
+```{r, data wrangling}
+
+# select variables of interest and group the data
+gss %>% select(polviews, owngun) %>% na.omit() %>% filter(owngun != "Refused") %>% group_by(polviews, owngun) %>% summarise(counts = n()) %>% print(n=40)
+
+# can use table to tally results into a contigency table
+tmp <- gss %>% select(polviews, owngun) %>% na.omit() 
+
+table(tmp)
+
+```
+
 
 * * *
 
