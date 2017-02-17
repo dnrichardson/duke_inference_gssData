@@ -59,23 +59,58 @@ This question is interesting to me because I am simply curious to see how gun ow
 
 ## Part 3: Exploratory data analysis
 
-```{r, data wrangling}
+Here, I will illustrate the steps I've taken to extract the necessary variables for exploratory analyses. I will focus on the political views variable, `polviews` and the gun-ownership variable, `owngun`. 
 
-# select variables of interest and group the data
-gss %>% select(polviews, owngun) %>% na.omit() %>% filter(owngun != "Refused") %>% group_by(polviews, owngun) %>% summarise(counts = n()) %>% print(n=40)
+Recall that I am including responses across all years of the GSS, which means I have included responses from 1972-2012. 
 
-# can use table to tally results into a contigency table
-tmp <- gss %>% select(polviews, owngun) %>% na.omit() 
+```{r, data wrangling, fig.width = 10}
 
-table(tmp)
+# select variables of interest and remove NAs 
+poli.guns <- gss %>% select(polviews, owngun) %>% na.omit() 
+
+#%>% filter(owngun != "Refused") %>% group_by(polviews, owngun) %>% summarise(counts = n()) %>% print(n=40)
+
+# can use the table function in base R to tally results into a contigency table
+poli.guns.tab <- table(poli.guns)
+
+# filter out the "Refused" respondents by simply indexing the columns we want to keep
+poli.guns.tab <- poli.guns.tab[,c(1,2)]
+
+# print the table
+poli.guns.tab
+
+# Make a plot showing the distribution of counts
+poli.guns.plot <- gss %>% select(polviews, owngun) %>% na.omit() %>% filter(owngun != "Refused") %>% group_by(polviews, owngun) 
+
+ggplot(poli.guns.plot, aes(polviews, ..count..)) +
+        geom_bar(aes(fill = owngun), position = "dodge") +
+        theme_bw()
+```
+
+According to the above plot, we can immediately see that the ratio of gun owners to non-gun owners approaches 1 as one moves up the categories from "extremely liberal" to "extremely conservative". Another interesting facet of this data is that there are many more survey respondents that identify themselves are moderates. I would venture to say that the majority of Americans are probably moderates in their political views, while the extreme liberals and conservatives are well, relegated to the tail ends of a normal distribution (**NOT** depicted above!)
+
+I am curious to see how the above plot would look if we turned it into a relative frequency bar plot. 
+
+```{r rel-frequency bar plot, fig.width = 10}
+
+# plot rel freq
+ggplot(poli.guns.plot, aes(polviews)) +
+        geom_bar(aes(fill = owngun), position = "fill") +
+        theme_bw()
 
 ```
 
+And as I suspected, this relative frequency bar plot clearly shows the shift in gun ownership as one becomes more conservative in ideology. One can see that for the "Conservative" and "Extremely Conservative" categories there are nearly 50% gun owners and non-gun owners (thus approaching a ratio of 1). 
 
 * * *
 
 ## Part 4: Inference
 
-NOTE: Insert code chunks as needed by clicking on the "Insert a new code chunk" 
-button (green button with orange arrow) above. Make sure that your code is visible
-in the project you submit. Delete this note when before you submit your work.
+```{r inference}
+
+# Perform chi-square test of independence
+
+chisq.test(poli.guns.tab) 
+
+```
+
