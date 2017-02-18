@@ -1,22 +1,21 @@
----
-title: "Statistical inference with the GSS data"
-author: "Dale Richardson"
-date: '`r format(Sys.Date(), "%B %d, %Y")`'
-output: 
-  html_document:
-    toc: true
-    keep_md: true
-    fig_height: 4
-    highlight: pygments
-    theme: spacelab
----
+# Statistical inference with the GSS data
+Dale Richardson  
+`r format(Sys.Date(), "%B %d, %Y")`  
 
 ## Setup
 
 ### Load packages
 
-```{r load-packages, message = FALSE}
+
+```r
 library(ggplot2)
+```
+
+```
+## Warning: package 'ggplot2' was built under R version 3.3.2
+```
+
+```r
 library(dplyr)
 library(statsr)
 ```
@@ -25,7 +24,8 @@ library(statsr)
 
 The `gss.Rdata` file is provided in my git-hub repository. 
 
-```{r load-data}
+
+```r
 load("gss.Rdata")
 ```
 
@@ -63,8 +63,8 @@ Here, I will illustrate the steps I've taken to extract the necessary variables 
 
 Recall that I am including responses across all years of the GSS, which means I have included responses from 1972-2012. 
 
-```{r, data wrangling, fig.width = 10}
 
+```r
 # select variables of interest and remove NAs 
 poli.guns <- gss %>% select(polviews, owngun) %>% na.omit() 
 
@@ -79,7 +79,21 @@ poli.guns.tab <- table(poli.guns)
 
 # print the table
 poli.guns.tab
+```
 
+```
+##                        owngun
+## polviews                 Yes   No Refused
+##   Extremely Liberal      231  624       5
+##   Liberal               1110 2660      16
+##   Slightly Liberal      1474 2554      22
+##   Moderate              5050 6977      91
+##   Slightly Conservative 2211 2714      44
+##   Conservative          2260 2282      74
+##   Extrmly Conservative   476  498      16
+```
+
+```r
 # Make a plot showing the distribution of counts
 poli.guns.plot <- gss %>% select(polviews, owngun) %>% na.omit() %>% filter(owngun != "Refused") %>% group_by(polviews, owngun) 
 
@@ -92,18 +106,21 @@ ggplot(poli.guns.plot, aes(polviews, ..count..)) +
         theme_bw()
 ```
 
+![](stat_inf_project_files/figure-html/data wrangling-1.png)<!-- -->
+
 According to the above plot, we can immediately see that the ratio of gun owners to non-gun owners approaches 1 as one moves up the categories from "extremely liberal" to "extremely conservative". Another interesting facet of this data is that there are many more survey respondents that identify themselves are moderates. I would venture to say that the majority of Americans are probably moderates in their political views, while the extreme liberals and conservatives are well, relegated to the tail ends of a normal distribution (**NOT** depicted above!)
 
 I am curious to see how the above plot would look if we turned it into a relative frequency bar plot. 
 
-```{r rel-frequency bar plot, fig.width = 10}
 
+```r
 # plot rel freq
 ggplot(poli.guns.plot, aes(polviews)) +
         geom_bar(aes(fill = owngun), position = "fill") +
         theme_bw()
-
 ```
+
+![](stat_inf_project_files/figure-html/rel-frequency bar plot-1.png)<!-- -->
 
 And as I suspected, this relative frequency bar plot clearly shows the shift in gun ownership as one becomes more conservative in ideology. One can see that for the "Conservative" and "Extremely Conservative" categories there are nearly 50% gun owners and non-gun owners (thus approaching a ratio of 1). 
 
@@ -134,13 +151,44 @@ Regarding sample size, by referring to the contigency table above, we see that a
 Given the above, our conditions of independence and sample size are met and we can proceed with the $\chi^{2}$ test of independence.
 
 
-```{r inference, fig.width = 10}
 
+```r
 # Perform chi-square test of independence using inference function of statsr package
 inference(y = owngun, x = polviews, poli.guns.plot, type = "ht",
           statistic = "proportion", method = "theoretical", alternative = "greater")
+```
 
 ```
+## Response variable: categorical (2 levels) 
+## Explanatory variable: categorical (7 levels) 
+## Observed:
+##                        y
+## x                        Yes   No
+##   Extremely Liberal      231  624
+##   Liberal               1110 2660
+##   Slightly Liberal      1474 2554
+##   Moderate              5050 6977
+##   Slightly Conservative 2211 2714
+##   Conservative          2260 2282
+##   Extrmly Conservative   476  498
+## 
+## Expected:
+##                        y
+## x                             Yes        No
+##   Extremely Liberal      351.9893  503.0107
+##   Liberal               1552.0465 2217.9535
+##   Slightly Liberal      1658.2609 2369.7391
+##   Moderate              4951.3166 7075.6834
+##   Slightly Conservative 2027.5409 2897.4591
+##   Conservative          1869.8661 2672.1339
+##   Extrmly Conservative   400.9797  573.0203
+## 
+## H0: polviews and owngun are independent
+## HA: polviews and owngun are dependent
+## chi_sq = 513.2695, df = 6, p_value = 0
+```
+
+![](stat_inf_project_files/figure-html/inference-1.png)<!-- -->
 
 ## Final remarks
 
