@@ -200,36 +200,27 @@ $(document).ready(function () {
 <h2>Part 3: Exploratory data analysis</h2>
 <p>Here, I will illustrate the steps I’ve taken to extract the necessary variables for exploratory analyses. I will focus on the political views variable, <code>polviews</code> and the gun-ownership variable, <code>owngun</code>.</p>
 <p>Recall that I am including responses across all years of the GSS, which means I have included responses from 1972-2012.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># select variables of interest and remove NAs </span>
-poli.guns &lt;-<span class="st"> </span>gss %&gt;%<span class="st"> </span><span class="kw">select</span>(polviews, owngun) %&gt;%<span class="st"> </span><span class="kw">na.omit</span>() 
-
-<span class="co"># relevel &quot;owngun&quot; to remove the &quot;Refused&quot; category</span>
-poli.guns$owngun &lt;-<span class="st"> </span><span class="kw">factor</span>(poli.guns$owngun)
-
-<span class="co"># can use the table function in base R to tally results into a contigency table</span>
-poli.guns.tab &lt;-<span class="st"> </span><span class="kw">table</span>(poli.guns)
-
-<span class="co"># filter out the &quot;Refused&quot; respondents by simply indexing the columns we want to keep</span>
-<span class="co">#poli.guns.tab &lt;- poli.guns.tab[,c(1,2)]</span>
-
-<span class="co"># print the table</span>
-poli.guns.tab</code></pre></div>
-<pre><code>##                        owngun
-## polviews                 Yes   No Refused
-##   Extremely Liberal      231  624       5
-##   Liberal               1110 2660      16
-##   Slightly Liberal      1474 2554      22
-##   Moderate              5050 6977      91
-##   Slightly Conservative 2211 2714      44
-##   Conservative          2260 2282      74
-##   Extrmly Conservative   476  498      16</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Make a plot showing the distribution of counts</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  select variables of interest and remove NAs</span>
 poli.guns.plot &lt;-<span class="st"> </span>gss %&gt;%<span class="st"> </span><span class="kw">select</span>(polviews, owngun) %&gt;%<span class="st"> </span><span class="kw">na.omit</span>() %&gt;%<span class="st"> </span><span class="kw">filter</span>(owngun !=<span class="st"> &quot;Refused&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">group_by</span>(polviews, owngun) 
 
 <span class="co"># Remove &quot;Refused&quot; level for proper chi2 df calculation</span>
 poli.guns.plot$owngun &lt;-<span class="st"> </span><span class="kw">factor</span>(poli.guns.plot$owngun)
 
-<span class="co"># plot</span>
+<span class="co"># can use the table function in base R to tally results into a contigency table</span>
+poli.guns.tab &lt;-<span class="st"> </span><span class="kw">table</span>(poli.guns.plot)
+
+<span class="co"># print the table</span>
+poli.guns.tab</code></pre></div>
+<pre><code>##                        owngun
+## polviews                 Yes   No
+##   Extremely Liberal      231  624
+##   Liberal               1110 2660
+##   Slightly Liberal      1474 2554
+##   Moderate              5050 6977
+##   Slightly Conservative 2211 2714
+##   Conservative          2260 2282
+##   Extrmly Conservative   476  498</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot</span>
 <span class="kw">ggplot</span>(poli.guns.plot, <span class="kw">aes</span>(polviews, ..count..)) +
 <span class="st">        </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> owngun), <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>) +
 <span class="st">        </span><span class="kw">theme_bw</span>()</code></pre></div>

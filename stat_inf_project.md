@@ -65,17 +65,14 @@ Recall that I am including responses across all years of the GSS, which means I 
 
 
 ```r
-# select variables of interest and remove NAs 
-poli.guns <- gss %>% select(polviews, owngun) %>% na.omit() 
+#  select variables of interest and remove NAs
+poli.guns.plot <- gss %>% select(polviews, owngun) %>% na.omit() %>% filter(owngun != "Refused") %>% group_by(polviews, owngun) 
 
-# relevel "owngun" to remove the "Refused" category
-poli.guns$owngun <- factor(poli.guns$owngun)
+# Remove "Refused" level for proper chi2 df calculation
+poli.guns.plot$owngun <- factor(poli.guns.plot$owngun)
 
 # can use the table function in base R to tally results into a contigency table
-poli.guns.tab <- table(poli.guns)
-
-# filter out the "Refused" respondents by simply indexing the columns we want to keep
-#poli.guns.tab <- poli.guns.tab[,c(1,2)]
+poli.guns.tab <- table(poli.guns.plot)
 
 # print the table
 poli.guns.tab
@@ -83,23 +80,17 @@ poli.guns.tab
 
 ```
 ##                        owngun
-## polviews                 Yes   No Refused
-##   Extremely Liberal      231  624       5
-##   Liberal               1110 2660      16
-##   Slightly Liberal      1474 2554      22
-##   Moderate              5050 6977      91
-##   Slightly Conservative 2211 2714      44
-##   Conservative          2260 2282      74
-##   Extrmly Conservative   476  498      16
+## polviews                 Yes   No
+##   Extremely Liberal      231  624
+##   Liberal               1110 2660
+##   Slightly Liberal      1474 2554
+##   Moderate              5050 6977
+##   Slightly Conservative 2211 2714
+##   Conservative          2260 2282
+##   Extrmly Conservative   476  498
 ```
 
 ```r
-# Make a plot showing the distribution of counts
-poli.guns.plot <- gss %>% select(polviews, owngun) %>% na.omit() %>% filter(owngun != "Refused") %>% group_by(polviews, owngun) 
-
-# Remove "Refused" level for proper chi2 df calculation
-poli.guns.plot$owngun <- factor(poli.guns.plot$owngun)
-
 # plot
 ggplot(poli.guns.plot, aes(polviews, ..count..)) +
         geom_bar(aes(fill = owngun), position = "dodge") +

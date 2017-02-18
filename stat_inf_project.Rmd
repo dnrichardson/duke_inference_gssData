@@ -65,26 +65,17 @@ Recall that I am including responses across all years of the GSS, which means I 
 
 ```{r, data wrangling, fig.width = 10}
 
-# select variables of interest and remove NAs 
-poli.guns <- gss %>% select(polviews, owngun) %>% na.omit() 
-
-# relevel "owngun" to remove the "Refused" category
-poli.guns$owngun <- factor(poli.guns$owngun)
-
-# can use the table function in base R to tally results into a contigency table
-poli.guns.tab <- table(poli.guns)
-
-# filter out the "Refused" respondents by simply indexing the columns we want to keep
-#poli.guns.tab <- poli.guns.tab[,c(1,2)]
-
-# print the table
-poli.guns.tab
-
-# Make a plot showing the distribution of counts
+#  select variables of interest and remove NAs
 poli.guns.plot <- gss %>% select(polviews, owngun) %>% na.omit() %>% filter(owngun != "Refused") %>% group_by(polviews, owngun) 
 
 # Remove "Refused" level for proper chi2 df calculation
 poli.guns.plot$owngun <- factor(poli.guns.plot$owngun)
+
+# can use the table function in base R to tally results into a contigency table
+poli.guns.tab <- table(poli.guns.plot)
+
+# print the table
+poli.guns.tab
 
 # plot
 ggplot(poli.guns.plot, aes(polviews, ..count..)) +
