@@ -80,6 +80,8 @@ poli.guns.tab
 # plot
 ggplot(poli.guns.plot, aes(polviews, ..count..)) +
         geom_bar(aes(fill = owngun), position = "dodge") +
+        ggtitle("Barplot of Political Ideology and Gun Ownership Counts") +
+        xlab("political ideology") +
         theme_bw()
 ```
 
@@ -92,6 +94,9 @@ I am curious to see how the above plot would look if we turned it into a relativ
 # plot rel freq
 ggplot(poli.guns.plot, aes(polviews)) +
         geom_bar(aes(fill = owngun), position = "fill") +
+        ggtitle("Frequency of gun ownership increases with degree of conservatism") +
+        ylab("relative frequency") +
+        xlab("political ideology") +
         theme_bw()
 
 ```
