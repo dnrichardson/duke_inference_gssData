@@ -106,11 +106,20 @@ And as I suspected, this relative frequency bar plot clearly shows the shift in 
 
 ## Part 4: Inference
 
+Here, I will perform a $$\chi^{2}$$ test of independence to determine if gun ownership is independent of political ideology. 
+
+The hypotheses explicitly stated are the following:
+
+$$H_0$$: Gun ownership among adult Americans over 18 years of age is independent of political ideology.
+
+
 ```{r inference}
 
 # Perform chi-square test of independence
 
 chisq.test(poli.guns.tab) 
 
+inference(y = owngun, x = polviews, poli.guns.plot, type = "ht",
+          statistic = "proportion", method = "theoretical", alternative = "greater")
 ```
 
